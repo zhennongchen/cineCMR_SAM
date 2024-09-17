@@ -11,8 +11,8 @@ Authors: Zhennong Chen, Sekeun Kim, Hui Ren, Sunghwan Kim, Siyeop Yoon, Quanzhen
 We have proposed cineCMR-SAM, a customized SAM for cine CMR segmentation. It can segment a 2D slice (both SAX and LAX) across one cardiac cycle.<br />
 The main contributions of cineCMR-SAM are as follows:<br />
 (1) introduce a temporal-spatial attention mechanism in the origianl SAM ViT encoder to enable 2D+T segmentation.<br />
-(2) enable text prompt (words: "LAX" or "SAX) and box prompt (bounding box around the region)
-(3) fine-tuned on two public datasets (STACOM and ACDC) and validate on three different unseen datasets. (the fine-tuned weights is not released since the paper has not been published yet).
+(2) enable text prompt (words: "LAX" or "SAX) and box prompt (bounding box around the region)<br />
+(3) fine-tuned on two public datasets (STACOM and ACDC) and validate on three different unseen datasets. (the fine-tuned weights is not released since the paper has not been published yet).<br />
 
 
 ## User Guideline
@@ -27,10 +27,10 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
     - you want to prepare the SAX data as a 4D array [x,y,z,time_frame]. note time_frame is default to be 15 but you can choose your own.<br />
     - you want to prepare the LAX data as a 3D array [x,y,time_frame].<br />
     - I did not prepare the code to do so since it is very easy.<br />
-    - For training, prepare the manual segmentation. For prediction, only image required. <br />
+    - For training, prepare pairs of image and the manual segmentation. For prediction, only image required. <br />
 
 - **Patient list** <br />
-    - Please prepare a patient list as the example ```HFpEF_Patient_List_training_testing-v2.xlsx```. this example corresponds to the dataset name set to ```HFpEF```<br />
+    - Please prepare a patient list as the example ```HFpEF_Patient_List_training_testing-v2.xlsx```. this example corresponds to the dataset name set to ```HFpEF```. please write your own code to generate this.<br />
     - In my code we have dataset names as "STACOM", "ACDC", "HFpEF", "AS" and "MM"(see ```dataset/data_CMR_sax.py```), corresponding to different datatsets mentioned in the paer. please replace them by your own dataset.<br />
 
 - optional: prepare the CLIP-extracted text prompt embedding. run ```dataset/CMR/clip_extractor.ipynb```.
