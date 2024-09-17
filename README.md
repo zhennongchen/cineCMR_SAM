@@ -39,7 +39,7 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
 
 ### Main
 use ```train.py``` to train the model.  <br /> 
-use ```predict.py`` to generate segmentation using trained model. The output will be 2D+T segmentation on each slice. <br /> 
+use ```predict.py``` to generate segmentation using trained model. The output will be 2D+T segmentation on each slice. <br /> 
 For both ```train.py``` and ```predict.py```, the user should fill in the lines in "important parameters, fill in using your own" in the function ```get_args_parser```.<br /> 
 
 ### Additional guidelines 
