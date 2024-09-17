@@ -1,0 +1,82 @@
+trainer:
+    # which model to use?
+    # model_type: sam_vit_h_ST_full_spatio # sam_vit_h_ST_full_spatio #Hyperseg UNETR #sam_vit_h_ST #sam_vit_h_ST_Multi (2nd model bidirectional) #sam_vit_h #sam_vit_h_ST_Multi
+    
+    model_type: sam_vit_h_ST_full_spatio #medsegdiff #sam_vit_h_ST_full_spatio #unetpp #deeplabv3 #swinunet #U_Transformer #segformer #enet #U_Transformer #unet #deeplabv3 
+
+    prompt: Random #Random #default
+
+    # Type of the loss (can choose one of CE, DSC, IOU, FOCAL, TverskyLoss, DSCwCE)
+    loss_type: CE
+
+    # number of epochs
+    num_epoch: 1000 #10_000
+    # learning rate
+    lr: 0.0001
+    # monitor metric
+    monitor_metric: val_loss
+    # tolerence for early stopping
+    tolerance: 1000
+    # shuffle data when training
+    shuffle_data: True
+    # training batch size
+    batch_size: 5
+    # gpu number to use
+    gpu_num: 1
+    # How many data loading workers per GPU?
+    num_workers: 48
+    # pretrained model dir
+    pretrained: None
+
+    optimizer : MadGrad
+
+    lr_scheduler : StepLR
+
+data:
+    task: segmentation
+    
+    modality : "Echo" #CMR
+    
+    dataset : "camus"  #echodynamic ,camus
+    
+    vox_spacing : [0.3, 0.15]
+    
+    view_type : "A4CH"
+    
+    max_fr : 32
+
+    input_type : "3D"
+    
+    adapter_type : "3D_ST_full_spatio"
+    # input_type : "3D_ST_full_spatio" #3D_ST 3D_ST_Multi 2D 3D 3D_ST_full_spatio
+
+    # directory to the json dataset.
+    data_json_dir: /mount/home/local/PARTNERS/sk1064/workspace/general/dataset/CMR/data_list/
+    ##TODO : Generate 3D data list
+    # Which dataloader to use?
+    # type: dataset.Echo.camus.dataset
+    type: dataset.Echo.echonet_dynamic.dataset
+    
+    contrastive : False
+
+    num_selected_view : 4
+    
+    view : [ "B", "LV cavity", "LV wall", "LA cavity"]
+    # view : [ "B", "LV cavity"]
+    # Data augmentations to be performed in given order.
+    augmentations:
+        aug: randaugment #randaugment #vanilla #randaugment # b_npy randaugment_npy
+        # resize all inputs to this size
+        resize_h_w: [128, 128]
+        randaug_h_w: [128, 128]
+        rand_aug:
+            N: 3
+            M: 5
+
+
+logging:
+    # base checkpoint directory
+    
+    base_ckpt_dir: /mount/home/local/PARTNERS/sk1064/workspace/general/results/segmentation/Echo/
+    # version of the experiment
+    version: test
