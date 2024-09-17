@@ -48,19 +48,18 @@ def get_args_parser():
     parser.add_argument('--validation', default=True)
 
     main_save_model_folder = os.path.join("/mnt/camca_NAS/SAM_for_CMR/", 'models', trial_name)
-    parser.add_argument('--output_dir', default = main_save_model_folder, help='path where to save, empty for no saving')
-    parser.add_argument('--pretrained_model_epoch', default = pretrained_model_epoch)
-  
     # data
     parser.add_argument('--full_or_nonzero_slice', default='nonzero') # full means all the slices, nonzero means only the slices with manual segmentation at both ED and ES, loose means the slices with manual segmentation at either ED or ES or both
     ###########
 
     # default, no need to change
-    parser.add_argument('--pretrained_model', default = os.path.join("/mnt/camca_NAS/SAM_for_CMR/", 'models', 'sam_multiview_prompt_text_HF_trial2','models/model-140.pth'))
-    # if pretrained_model_epoch == None:
-    #     parser.add_argument('--pretrained_model', default = None, help='path where to save, empty for no saving')
-    # else:
-    #     parser.add_argument('--pretrained_model', default = os.path.join(main_save_model_folder, 'models', 'model-%s.pth' % pretrained_model_epoch), help='path where to save, empty for no saving')
+    parser.add_argument('--output_dir', default = main_save_model_folder, help='path where to save, empty for no saving')
+    parser.add_argument('--pretrained_model_epoch', default = pretrained_model_epoch)
+   
+    if pretrained_model_epoch == None:
+        parser.add_argument('--pretrained_model', default = None, help='path where to save, empty for no saving')
+    else:
+        parser.add_argument('--pretrained_model', default = os.path.join(main_save_model_folder, 'models', 'model-%s.pth' % pretrained_model_epoch), help='path where to save, empty for no saving')
 
     parser.add_argument('--model_type', type=str, default='sam')
     parser.add_argument('--n_gpu', type=int, default=1, help='total gpu')  # use single GPU

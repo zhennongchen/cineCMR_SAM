@@ -46,10 +46,6 @@ def get_args_parser():
     parser.add_argument('--box_prompt', default=None) #enable box prompt
     parser.add_argument('--num_classes', type=int, default=2)  ######## important!!!! background + myocardium.
     parser.add_argument('--validation', default=True)
-
-    main_save_model_folder = os.path.join("/mnt/camca_NAS/SAM_for_CMR/", 'models', trial_name)
-    parser.add_argument('--output_dir', default = main_save_model_folder, help='path where to save, empty for no saving')
-    parser.add_argument('--pretrained_model_epoch', default = pretrained_model_epoch)
   
     # data
     parser.add_argument('--full_or_nonzero_slice', default='nonzero') # full means all the slices, nonzero means only the slices with manual segmentation at both ED and ES, loose means the slices with manual segmentation at either ED or ES or both
@@ -57,9 +53,15 @@ def get_args_parser():
     parser.add_argument('--dataset_split',default=[[np.arange(0,3,1) , np.arange(0,3,1)], [np.arange(0,0,1) , np.arange(0,0,1)], [np.arange(0,0,1) , np.arange(0,0,1)], [np.arange(0,0,1), np.arange(0,0,1)], [np.arange(0,2,1), np.arange(0,0,1)]], type=list) # [training_data, validation_data]. for LAX: 0-60 case: 0-224, 60-80: 224-297, 80-100: 297-376
     parser.add_argument('--dataset_train', default= [], type = list)
     parser.add_argument('--dataset_valid', default= [], type = list)
+
+    # model save folder
+    main_save_model_folder = os.path.join("/mnt/camca_NAS/SAM_for_CMR/", 'models', trial_name)
     ###########
 
     # default, no need to change
+    parser.add_argument('--output_dir', default = main_save_model_folder, help='path where to save, empty for no saving')
+    parser.add_argument('--pretrained_model_epoch', default = pretrained_model_epoch)
+
     if pretrained_model_epoch == None:
         parser.add_argument('--pretrained_model', default = None, help='path where to save, empty for no saving')
     else:

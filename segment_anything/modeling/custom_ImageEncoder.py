@@ -112,8 +112,6 @@ class Block_timesformer(nn.Module):
         self.temporal_attn = Attention_2(
             dim, num_heads=num_heads, qkv_bias=False, qk_scale=None, attn_drop=0, proj_drop=0)
         self.temporal_fc = nn.Linear(dim, dim)
-
-        self.cross_frame_attention = CrossFrameAttention(input_dim =dim, num_heads=num_heads, batch_size =batch_size, max_fr =self.chunk)
        
         self.MLP_Adapter = Adapter(dim, skip_connect=False)  # MLP-adapter, no skip connection
         self.scale = 0.5
