@@ -11,7 +11,7 @@ Authors: Zhennong Chen, Sekeun Kim, Hui Ren, Sunghwan Kim, Siyeop Yoon, Quanzhen
 We have proposed cineCMR-SAM, a customized SAM for cine CMR segmentation. It can segment a 2D slice (both SAX and LAX) across one cardiac cycle.<br />
 The main contributions of cineCMR-SAM are as follows:<br />
 (1) introduce a temporal-spatial attention mechanism in the origianl SAM ViT encoder to enable 2D+T segmentation.<br />
-(2) enable text prompt (words: "LAX" or "SAX) and box prompt (bounding box around the region)<br />
+(2) enable text prompt (words: "LAX" or "SAX to specify the input view type) and box prompt (bounding box around the region)<br />
 (3) fine-tuned on two public datasets (STACOM and ACDC) and validate on three different unseen datasets. (the fine-tuned weights is not released since the paper has not been published yet).<br />
 
 
@@ -35,7 +35,8 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
     - Please prepare a patient list as the example ```HFpEF_Patient_List_training_testing-v2.xlsx```. this example corresponds to the dataset name set to ```HFpEF```. please write your own code to generate this.<br />
     - In my code we have dataset names as "STACOM", "ACDC", "HFpEF", "AS" and "MM"(see ```dataset/data_CMR_sax.py```), corresponding to different datatsets mentioned in the paer. please replace them by your own dataset.<br />
 
-- optional: prepare the CLIP-extracted text prompt embedding. run ```dataset/CMR/clip_extractor.ipynb```.
+- **Text prompt features** <br />
+    - we can easily use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). The embedding will be used in ```dataset/CMR/dataset_SAX.py``` and ```dataset/CMR/dataset_LAX.py```.
 
 ### Main
 use ```train.py``` to train the model.  <br /> 
