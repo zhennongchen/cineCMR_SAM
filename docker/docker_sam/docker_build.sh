@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo docker build -t zc_sam:2.0 .
+sudo docker build -t cmr_sam:1.0 .
