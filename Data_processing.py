@@ -24,16 +24,6 @@ def crop_or_pad(image, target_size, padding_value):
     ind = tuple([slice(0, t) for t in target_size])
     return image[ind]
 
-# function: correction for the above function
-def correct_shift_caused_in_pad_crop_loop(img):
-    # if an image goes from [a,b,c] --> pad --> [A,B,c] --> crop --> [a,b,c], when a,b is even, it goes back to original image, but when a,b is odd, it need to shift by 1 pixel in x and y
-    if img.shape[0] % 2 == 1:
-
-        img = np.roll(img, shift = 1, axis = 0)
-        img = np.roll(img, shift = 1, axis = 1)
-    else:
-        img = np.copy(img)
-    return img
 
 # function:center crop (need to provide the segmentation mask)
 def center_crop(I, S, crop_size, according_to_which_class, centroid = None):
@@ -87,12 +77,6 @@ def turn_image_range_into_0_255(img):
     return img
 
 
-# function: normalization using mu and std
-def normalize_image_mu_std(img, mu = 0.5, std = 0.5, denormalize = False):
-    if denormalize == False:
-        return (img - mu) / std
-    else:
-        return img * std + mu
     
 # function: normalization using min and max
 def normalize_image(array, denormalize=False, original_min=None, original_max=None):
@@ -189,7 +173,6 @@ def flip_image(image, flip):
             flipped_image = flipped_image[:,  ::-1, :]
 
     return flipped_image
-
 
 
 # function: cutoff intensity

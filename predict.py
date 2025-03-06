@@ -39,11 +39,11 @@ def get_args_parser():
     parser = argparse.ArgumentParser('SAM fine-tuning', add_help=True)
     
     ########### important parameters, fill in using your own
-    trial_name = 'cineCMR_SAM'
-    pretrained_model_epoch = 100 # fill in the epoch number of the pretrained model
+    trial_name = 'sam_multiview_prompt_2box_text_HF_5shot'
+    pretrained_model_epoch = 81 # fill in the epoch number of the pretrained model
 
     parser.add_argument('--text_prompt', default=True)#enable text prompt
-    parser.add_argument('--box_prompt', default=None) #enable box prompt
+    parser.add_argument('--box_prompt', default= True) #enable box prompt
     parser.add_argument('--num_classes', type=int, default=2)  ######## important!!!! background + myocardium.
     parser.add_argument('--validation', default=True)
 
@@ -105,10 +105,10 @@ def run(args, cfg):
 
     model = build_model(args, device)
     
-    sax_or_lax = 'lax'
-    save_folder_name = 'predicts_lax'
+    sax_or_lax = 'sax'
+    save_folder_name = 'predicts_sax'
 
-    pred_index_list = np.arange(0,1,1)
+    pred_index_list = np.arange(4,5,1)
         
     if sax_or_lax == 'sax':
         dataset_pred = build_data_CMR(args, 'HFpEF',

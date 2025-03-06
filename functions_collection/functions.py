@@ -44,29 +44,6 @@ def customized_dice_loss(pred, mask, num_classes, exclude_index = 10):
 
     return torch.mean(dice_loss)
 
-# function: define base, mid and apex segments given slice number N
-def define_three_segments(N):
-    arr = np.arange(0, N)
-
-    # Calculate the lengths of the segments
-    # Ensuring the middle segment has the most elements if the array can't be equally divided
-    segment_length = N // 3
-    segment_extra = N % 3
-
-    if segment_extra == 1 or segment_extra == 0:
-        # then assign this extra to mid
-        base_segment = arr[:segment_length]
-        mid_segment = arr[segment_length:2 * segment_length + segment_extra]
-        apex_segment = arr[2 * segment_length + segment_extra:]
-
-    else:
-        # then assign 1 to base and assign 1 to mid
-        base_segment = arr[:segment_length + 1]
-        mid_segment = arr[segment_length + 1: 2 * segment_length + 2*1]
-        apex_segment = arr[2 * segment_length + 2*1 :]
-
-    return base_segment, mid_segment, apex_segment
-
 
 # function: normalize the CMR image
 def normalize_image(x, axis=(0,1,2)):
