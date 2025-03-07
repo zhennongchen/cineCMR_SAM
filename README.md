@@ -33,17 +33,23 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
     - Please prepare a patient list (for SAX and for LAX) following my format in ```patient_list_sax.xlsx``` and ```patient_list_lax.xlsx```. My code ```dataset/build_CMR_datasets.py``` will read these to get patient list. <br />
 
 - **Text prompt features** <br />
-    - we can easily use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). The embedding will be used in ```dataset/CMR/dataset_SAX.py``` and ```dataset/CMR/dataset_LAX.py```.
+    - we can easily use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). I also prepare the generated embedding for you in ```data/text_prompt_clip/sax.npy``` and ```data/text_prompt_clip/lax.npy```. <br />
+    - The view type of the data should be easily defined by the folder name / series name of the DICOM. <br />
 
-### Main
-use ```train.py``` to train the model.  <br /> 
-use ```predict.py``` to generate segmentation using trained model. The output will be 2D+T segmentation on each slice. <br /> 
-For both ```train.py``` and ```predict.py```, the user should fill in the lines in "important parameters, fill in using your own" in the function ```get_args_parser```.<br /> 
+- **Box prompt features** <br />
+    - During training, we suppose not to prepare any box prompts manually. Instead, the box will be automatically generated from the manual segmentation of myocardium. Please refer to ```dataset/CMR/Dataset --> line get_bbox_from_mask_all_volumes```.  <br />
+    - During inference/prediction, you can manually define the box around the myocardium either on ED or ES frame or both. here we prepare examplar bounding box ```data/ID_0002/bounding_box.npy``` which saves the bounding box as a 4D array [f,s,2,4] where f is the number of cases, s is the slice num in each case, 2 refers to ED and ES, 4 refers to at each frame the definition of [xmin, ymin, xmax, ymax] of the bounding box. If you don't define the box, the model will just pass None as box prompt.  <br />
+
+### Model and Experiments
+use ```train.ipynb``` to train the model.  <br /> 
+use ```predict.ipynb``` to generate segmentation using trained model. The output will be 2D+T segmentation on each slice. The saved file will be structured shown as ```data/output_file_structure.png``` <br /> 
+Both jupyter notebooks provide sufficient guidelines to run the code.<br /> 
+
 
 ### Additional guidelines 
 special thank you to Dr. Sekeun Kim since our cineCMR-SAM is largely dependent on his [previous work](https://github.com/kimsekeun/MediViSTA-SAM).
 
-Please contact zchen36@mgh.harvard.edu and chenzhennong@gmail.com for any further questions.
+Please contact chenzhennong@gmail.com for any further questions.
 
 
 
