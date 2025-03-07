@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import numpy as np
 import random
-import SAM_CMR_seg.Data_processing as Data_processing
+import cineCMR_SAM.Data_processing as Data_processing
 import PIL, PIL.ImageOps, PIL.ImageEnhance, PIL.ImageDraw
 from PIL import Image
 

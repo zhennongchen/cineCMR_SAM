@@ -2,10 +2,7 @@ import numpy as np
 import os
 import pandas as pd
 
-def __build__(file, batch_list = None, index_list = None):
-
-    #### we select the cases either by batch_list or by index_list 
-    # using the spreadsheet ACDC_Patient_List_training_testing.xlsx or STACOM_Patient_List_training_testing.xlsx
+def __build__(file, index_list = None):
 
     data = pd.read_excel(file)
 

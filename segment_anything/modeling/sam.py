@@ -28,7 +28,7 @@ class Sam(nn.Module):
         args,
         chunk,
         prompt_encoder: PromptEncoder,
-        mask_decoder: MaskDecoder,
+        mask_decoder: MaskDecoder, 
         pixel_mean: List[float] = [123.675, 116.28, 103.53],
         pixel_std: List[float] = [58.395, 57.12, 57.375],
         
@@ -79,14 +79,14 @@ class Sam(nn.Module):
     def device(self) -> Any:
         return self.pixel_mean.device
 
-    def forward(self, batched_input, multimask_output, image_size):
+    def forward(self, batched_input,  image_size):
         if isinstance(batched_input, list):
-            outputs = self.forward_test(batched_input, multimask_output)
+            outputs = self.forward_test(batched_input, multimask_output=False)
         else:
-            outputs = self.forward_train(batched_input, multimask_output, image_size)
+            outputs = self.forward_train(batched_input, image_size, multimask_output=False)
         return outputs
 
-    def forward_train(self, batched_input, multimask_output, image_size):
+    def forward_train(self, batched_input,  image_size, multimask_output = False):
         
         if self.input_type == "2DT":
           input_images = rearrange(batched_input["image"].cuda(), 'b c h w d -> (b d) c h w')
@@ -116,7 +116,7 @@ class Sam(nn.Module):
               image_pe=self.prompt_encoder.get_dense_pe(),
               sparse_prompt_embeddings=sparse_embeddings,
               dense_prompt_embeddings=dense_embeddings,
-              multimask_output=multimask_output,
+              multimask_output= multimask_output,
               embedding_list = embedding_list
           )
           masks = self.postprocess_masks(

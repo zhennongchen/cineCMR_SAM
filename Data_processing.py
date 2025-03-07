@@ -30,9 +30,9 @@ def center_crop(I, S, crop_size, according_to_which_class, centroid = None):
     # make sure S is integers
     S = S.astype(int)
     # Compute the centroid of the class 1 region in the mask
-    assert isinstance(according_to_which_class, list), "according_to_which_class must be a list"
-    assert I.shape == S.shape, "Image and mask must have the same shape"
-    assert len(crop_size) == len(I.shape), "Crop size dimensions must match image dimensions"
+    # assert isinstance(according_to_which_class, list), "according_to_which_class must be a list"
+    # assert I.shape == S.shape, "Image and mask must have the same shape"
+    # assert len(crop_size) == len(I.shape), "Crop size dimensions must match image dimensions"
     
     # Find the indices where the mask > 0
     if centroid is None:
@@ -79,8 +79,8 @@ def turn_image_range_into_0_255(img):
 
     
 # function: normalization using min and max
-def normalize_image(array, denormalize=False, original_min=None, original_max=None):
-    if denormalize:
+def normalize_image(array, inverse=False, original_min=None, original_max=None):
+    if inverse:
         if original_min is None or original_max is None:
             raise ValueError("Original min and max values are required for denormalization.")
         
@@ -212,10 +212,6 @@ def get_bbox_from_mask_2D(mask, class_id = 1, box_buffer =['random',10]):
 
 def get_bbox_from_mask_all_volumes(mask,tf_list, class_id = 1, box_buffer =['random',5]):
     assert len(mask.shape) == 3
-    # sum_list = np.sum(mask == class_id, axis = (0,1))
-    # nonzero_index = np.nonzero(sum_list)
-    # z_max = np.argmax(sum_list)
-    # z_min = np.argmin(sum_list[nonzero_index]); z_min = nonzero_index[0][z_min]
     if len(tf_list) == 2:
         z_max = tf_list[0]; z_min = tf_list[1]
     elif len(tf_list) == 1:
@@ -227,7 +223,7 @@ def get_bbox_from_mask_all_volumes(mask,tf_list, class_id = 1, box_buffer =['ran
         box = get_bbox_from_mask_2D(mask[:,:,z], class_id = class_id, box_buffer = box_buffer)
         if z == z_max:
             box_max = box
-        
         box_list.append(box)
+        
     return np.stack(box_list,axis = 0), z_max, z_min
 

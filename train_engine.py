@@ -41,19 +41,16 @@ def train_loop(model: torch.nn.Module,
     sax_loss = []; sax_lossCE = []; sax_lossDICE = []
     lax_loss = []; lax_lossCE = []; lax_lossDICE = []
 
-    assert len(data_loader_train) == len(args.dataset_train)
-
     for i in range(len(data_loader_train)):
-        current_data_loader = data_loader_train[i] # this is an iterable
-        current_dataset_name = args.dataset_train[i][0]
-        current_slice_type = args.dataset_train[i][1]
+        current_data_loader = data_loader_train[i] # data_loader_train is [data_loader_sax, data_loader_lax]
+        current_slice_type = 'sax' if i == 0 else 'lax'
         print('in training current slice type: ', current_slice_type)
         
         for data_iter_step, batch in enumerate(metric_logger.log_every(current_data_loader ,args.print_freq, header)):
             with torch.cuda.amp.autocast():
                 batch["image"]= batch["image"].to(torch.float16).cuda()
                 
-                output = model(batch, False, args.img_size)
+                output = model(batch, args.img_size)
 
                 mask = batch["mask"]
                 mask = rearrange(mask, 'b c h w d -> (b d) c h w ').to("cuda")
@@ -64,7 +61,6 @@ def train_loop(model: torch.nn.Module,
                 #### total loss: weighted loss
                 loss = args.loss_weights[0] * lossCE + args.loss_weights[1] * lossDICE
                    
-                
                 if torch.isnan(loss):
                     continue
 
@@ -89,7 +85,6 @@ def train_loop(model: torch.nn.Module,
             elif current_slice_type == 'lax':
                 lax_loss.append(loss.item()); lax_lossCE.append(lossCE.item()); lax_lossDICE.append(lossDICE.item())
 
-        
 
     average_loss_mean = sum(average_loss)/len(average_loss);average_lossCE_mean = sum(average_lossCE)/len(average_lossCE);average_lossDICE_mean = sum(average_lossDICE)/len(average_lossDICE)
     if len(sax_loss) == 0:

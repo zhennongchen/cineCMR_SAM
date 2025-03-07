@@ -73,6 +73,7 @@ class Block_timesformer(nn.Module):
         rel_pos_zero_init: bool = True,
         window_size: int = 4, #original 0
         input_size: Optional[Tuple[int, int]] = None,
+        with_cross_frame_attention: bool = False,
     ) -> None:
         """
         Args:
@@ -102,7 +103,7 @@ class Block_timesformer(nn.Module):
             rel_pos_zero_init=rel_pos_zero_init,
             input_size=input_size if window_size == 0 else (window_size, window_size),
         )
-        self.scale = scale
+        self.scale = scale 
         
         self.mlp = MLPBlock(embedding_dim=dim, mlp_dim=int(dim * mlp_ratio), act=act_layer)
 
@@ -114,6 +115,9 @@ class Block_timesformer(nn.Module):
         self.temporal_fc = nn.Linear(dim, dim)
        
         self.MLP_Adapter = Adapter(dim, skip_connect=False)  # MLP-adapter, no skip connection
+        self.cross_frame_attention = CrossFrameAttention(input_dim =dim, num_heads=num_heads, batch_size =batch_size, max_fr =self.chunk)
+        self.with_cross_frame_attention = with_cross_frame_attention
+
         self.scale = 0.5
         
     def forward(self, x):
@@ -122,10 +126,17 @@ class Block_timesformer(nn.Module):
         W = x.size()[2]
     
         ## Temporal
-        xt = rearrange(x, '(b t) h w c -> (b h w) t c', t=T, h=H, w=W)
+        xt = rearrange(x, '(b t) h w c -> (b h w) t c', t=T, h=H, w=W) 
         res_temporal = self.temporal_attn(self.temporal_norm1(xt))
         res_temporal = rearrange(res_temporal, '(b h w) t m -> (b t) h w m', h = H, w = W, t=T)
         res_temporal = self.temporal_fc(res_temporal)
+
+        if self.with_cross_frame_attention:
+            # print('we have cross_frame_attention')
+            res_temporal = self.cross_frame_attention(res_temporal)  #### this is cross_frame_attentation
+        # else:
+        #     print('we do not have cross_frame_attention')
+
 
 
         xt = x + res_temporal
@@ -558,6 +569,7 @@ class ImageEncoderViT_medivista(nn.Module):
                 rel_pos_zero_init=rel_pos_zero_init,
                 window_size=window_size if i not in global_attn_indexes else 0,
                 input_size=(img_size // patch_size, img_size // patch_size),
+                with_cross_frame_attention = args.cross_frame_attention, 
             )
             self.blocks.append(block)
 

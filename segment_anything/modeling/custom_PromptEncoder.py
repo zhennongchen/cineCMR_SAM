@@ -35,7 +35,7 @@ class PromptEncoder(nn.Module):
           activation (nn.Module): The activation to use when encoding
             input masks.
         """
-        super().__init__()
+        super().__init__() 
         self.embed_dim = embed_dim
         self.input_image_size = input_image_size
         self.image_embedding_size = image_embedding_size
