@@ -18,14 +18,13 @@ The main contributions of cineCMR-SAM are as follows:<br />
 ## User Guideline
 ### Environment Setup
 The entire code is [containerized](https://www.docker.com/resources/what-container). This makes setting up environment swift and easy. Make sure you have nvidia-docker and Docker CE [installed](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) on your machine before going further. <br />
-- You can build your own docker from the folder ```docker/docker_sam```. <br />
-- You need to download original SAM weights (sam_vit_h_4b8939.pth and sam_vit_b_01ec64.pth)!<br />
-- (optional but recommend) if you don't want to train the text prompt encoder, you should install the CLIP model by ```pip install openai-clip```.<br />
-- when clone this repo, you may want to change the folder name to ```cineCMR_SAM``` instead of ```cineCMR-SAM```.
+- You can build your own docker from the folder ```docker```. The docker image can be built by ```./docker_build.sh```, after that the docker container can be built by ```./docker_run.sh```. The installed packages can be referred to ```dockerfile``` and ```requirements.txt``` <br />
+- You also need to download original SAM weights (sam_vit_h_4b8939.pth) from online!<br />
 
-### Data Preparation
+### Data Preparation (we have examples available)
 - **CMR data**<br />
-    - you want to prepare the SAX data as a 4D array [x,y,z,time_frame]. note time_frame is default to be 15 but you can choose your own.<br />
+    - you want to prepare the SAX data as a 4D array [x,y,slice_num,time_frame] saved as a nii file. note time_frame should be sampled consistently for every case, in our study we default it to 15. <br />
+        - example data: check folder ```data/ID_0002```, in which we have a 4D image data ```img_4D.nii.gz``` and a manual segmentation ```seg_manual_4D.nii.gz```(for training purpose). <br />
     - you want to prepare the LAX data as a 3D array [x,y,time_frame].<br />
     - Currently, our model only support x and y size equal to 128. different image sizes can be feasible but requires the modification of U-Net paths.<br />
     - I did not prepare the code to do so since it is very easy.<br />
