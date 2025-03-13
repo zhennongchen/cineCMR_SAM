@@ -36,7 +36,7 @@ def save_predictions(view_type, batch, output,args, save_folder_patient):
 
     affine = nb.load(original_image_file).affine
     original_image = nb.load(original_image_file).get_fdata()
-    original_image = original_image[:,:,slice_index,:] if view_type == 'sax' else np.copy(original_image)
+    original_image = original_image[:,:,:,slice_index] if view_type == 'sax' else np.copy(original_image)
 
     if view_type == 'sax':
         nb.save(nb.Nifti1Image(final_pred_seg, affine), os.path.join(save_folder_patient, 'pred_seg_slice%s.nii.gz' % slice_index))

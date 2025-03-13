@@ -5,7 +5,6 @@ import os
 import pandas as pd
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
-import cineCMR_SAM.dataset.build_list as build_list
 import cineCMR_SAM.dataset.CMR.Dataset as Dataset
 
 def from_excel_file(file, index_list = None, view_type = 'sax'): 

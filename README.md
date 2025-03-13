@@ -23,18 +23,18 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
 
 ### Data Preparation (we have examples available)
 - **CMR data**<br />
-    - you want to prepare the SAX data as a 4D array [x,y,slice_num,time_frame] saved as a nii file. note time_frame should be sampled consistently for every case, in our study we default it to 15. <br />
+    - you want to prepare the SAX data as a 4D array [x,y,time_frame,slice_num] saved as a nii file. note time_frame should be sampled consistently for every case, in our study we default it to 15. <br />
         - example data: check folder ```data/ID_0002```, in which we have a 4D image data ```img_4D.nii.gz``` and its manual segmentation ```seg_manual_4D.nii.gz```(for training purpose). <br />
     - you want to prepare the LAX data as a 3D array [x,y,time_frame]. As aforementioned, time frame is default to 15. <br />
         - example data: check folder ```data/ID_0085```, in which we have a 3D image data for 4CH view ```LAX4_img.nii.gz``` and its manual segmentation ```LAX4_seg.nii.gz```. <br />
     - For training, prepare pairs of image and the manual segmentation. For prediction, only image required. <br />
 
 - **Patient list** <br />
-    - Please prepare a patient list (for SAX and for LAX) following my format in ```patient_list_sax.xlsx``` and ```patient_list_lax.xlsx```. My code ```dataset/build_CMR_datasets.py``` will read these to get patient list. <br />
+    - Please prepare a patient list (for SAX and for LAX) following my format in ```patient_list_sax.xlsx``` and ```patient_list_lax.xlsx```. My code ```dataset/build_CMR_datasets.py``` will read these to get patient list. This is how the model knows the paths of patient data <br />
 
 - **Text prompt features** <br />
     - we can easily use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). I also prepare the generated embedding for you in ```data/text_prompt_clip/sax.npy``` and ```data/text_prompt_clip/lax.npy```. <br />
-    - The view type of the data should be easily defined by the folder name / series name of the DICOM. <br />
+    - The view type of the data should be easily defined by the metadata of the DICOM. <br />
 
 - **Box prompt features** <br />
     - During training, we suppose not to prepare any box prompts manually. Instead, the box will be automatically generated from the manual segmentation of myocardium. Please refer to ```dataset/CMR/Dataset --> line get_bbox_from_mask_all_volumes```.  <br />

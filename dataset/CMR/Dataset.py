@@ -108,7 +108,7 @@ class Dataset_CMR(torch.utils.data.Dataset):
         return index_array
     
     # function: 
-    # load nii, for SAX, you will be given a 4D data as [x,y,slice_num, tf], where tf always = 15
+    # load nii, for SAX, you will be given a 4D data as [x,y,tf, slice_num], where tf always = 15
     # for LAX, you will be given a 3D data as [x,y,tf], where tf always = 15
     def load_file(self, filename, segmentation_load = False):
         ii = nb.load(filename).get_fdata()
@@ -116,6 +116,9 @@ class Dataset_CMR(torch.utils.data.Dataset):
             ii = np.round(ii).astype(int)
         if self.only_myo is True and segmentation_load is True:
             iii = np.zeros(ii.shape); iii[ii != 2] = 0; iii[ii == 2] = 1; ii = np.copy(iii)
+        
+        # change it to [x,y,slice_num,tf] for SAX for the purpose of coding
+        ii = np.transpose(ii, (0,1,3,2)) if self.view_type == 'sax' else ii
         return ii
     
 
@@ -253,7 +256,6 @@ class Dataset_CMR(torch.utils.data.Dataset):
 
         # also add infos from patient list spread sheet
         patient_id = os.path.basename(os.path.dirname(image_filename))
-        print('in dataset_SAX, patient_id is: ', patient_id)
         row = self.patient_list_spreadsheet.loc[self.patient_list_spreadsheet['patient_id'] == patient_id]
 
         # prepare the box feature (bounding box):
@@ -263,11 +265,11 @@ class Dataset_CMR(torch.utils.data.Dataset):
             if os.path.isfile(os.path.join(os.path.dirname(image_filename), 'bounding_box.npy')) == True:
                 bbox = np.load(os.path.join(os.path.dirname(image_filename), 'bounding_box.npy'))
                 bbox = bbox[s,:,:]
-                print('no manual segmentation, please define by your own. in this example, we pre-save the bounding box and we will load here')
+                # print('no manual segmentation, please define by your own. in this example, we pre-save the bounding box and we will load here')
                 # print('the bounding box is: ', bbox)
             else:
                 bbox = np.zeros((2,4))
-                print('no pre-saved bounding box, please define by your own')
+                # print('no pre-saved bounding box, please define by your own')
         
         # now it's time to turn numpy into tensor and collect as a dictionary (this is the final return)
         processed_image_torch = torch.from_numpy(processed_image).unsqueeze(0).float() 
