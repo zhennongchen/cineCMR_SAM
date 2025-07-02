@@ -12,7 +12,7 @@ Authors: Zhennong Chen, Sekeun Kim, Hui Ren, Sunghwan Kim, Siyeop Yoon, Quanzhen
 We have proposed cineCMR-SAM, a customized SAM for cine CMR segmentation. It can segment a 2D slice (both SAX and LAX) across one cardiac cycle.<br />
 The main contributions of cineCMR-SAM are as follows:<br />
 (1) introduce a temporal-spatial attention mechanism in the origianl SAM ViT encoder to enable 2D+T segmentation.<br />
-(2) enable text prompt (words: "LAX" or "SAX to specify the input view type) and box prompt (bounding box around the region)<br />
+(2) enable text prompt (words: "LAX" or "SAX" to specify the input view type) and box prompt (bounding box around the region)<br />
 (3) fine-tuned on two public datasets (STACOM and ACDC).<br />
 
 
