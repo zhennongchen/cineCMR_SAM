@@ -6,7 +6,7 @@ This is the GitHub repo based on an published paper: <br />
 [paper link](https://www.sciencedirect.com/science/article/pii/S1097664725000717)<br />
 Authors: Zhennong Chen, Sekeun Kim, Hui Ren, Sunghwan Kim, Siyeop Yoon, Quanzheng Li, Xiang Li<br />
 
-**Citation**: TBD
+**Citation**: Chen, Zhennong, et al. "Cine cardiac magnetic resonance segmentation using temporal-spatial adaptation of prompt-enabled segment-anything-model: a feasibility study." Journal of Cardiovascular Magnetic Resonance (2025): 101909.
 
 ## Description
 We have proposed cineCMR-SAM, a customized SAM for cine CMR segmentation. It can segment a 2D slice (both SAX and LAX) across one cardiac cycle.<br />
