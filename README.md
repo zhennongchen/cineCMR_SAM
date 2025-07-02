@@ -1,7 +1,7 @@
 # Tailor segment-anything-model (SAM) for cine CMR segmentation
 **Author: Zhennong Chen, PhD**<br />
 
-This is the GitHub repo based on an published paper: <br />
+This is the GitHub repo for an published paper: <br />
 *Cine Cardiac Magnetic Resonance Segmentation using Temporal-spatial Adaptation of Prompt-enabled Segment-Anything-Model: A Feasibility Study*<br />
 [paper link](https://www.sciencedirect.com/science/article/pii/S1097664725000717)<br />
 Authors: Zhennong Chen, Sekeun Kim, Hui Ren, Sunghwan Kim, Siyeop Yoon, Quanzheng Li, Xiang Li<br />
