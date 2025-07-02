@@ -30,7 +30,7 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
     - For training, prepare pairs of image and the manual segmentation. For prediction, only image required. <br />
 
 - **Patient list** <br />
-    - Please prepare a patient list (for SAX and for LAX) following my format in ```example_data/data/Patient_list/patient_list_sax.xlsx``` and ```example_data/data/Patient_list/patient_list_lax.xlsx```. My code ```dataset/build_CMR_datasets.py``` will read these to get patient list. This is how the model knows the paths of patient data <br />
+    - Please prepare a patient list (for SAX and for LAX) following my format in ```example_data/data/Patient_list/patient_list_sax.xlsx``` and ```patient_list_lax.xlsx```. My code ```dataset/build_CMR_datasets.py``` will read these to get patient list. This is how the model knows the paths of patient data <br />
 
 - **Text prompt features** <br />
     - we can use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). we prepare the generated embedding for you in ```example_data/data/text_prompt_clip/sax.npy``` and ```example_data/data/text_prompt_clip/lax.npy```. <br />
@@ -50,7 +50,7 @@ we have design our study into 5 steps, with each step having its own jupyter not
 
 
 ### Additional guidelines 
-special thank you to Dr. Sekeun Kim since our cineCMR-SAM is largely dependent on his [previous work](https://github.com/SekeunKim/MediViSTA).
+special thank you to Dr. Sekeun Kim since our cineCMR-SAM is inspired by his [previous work](https://github.com/SekeunKim/MediViSTA).
 
 Please contact chenzhennong@gmail.com for any further questions.
 
