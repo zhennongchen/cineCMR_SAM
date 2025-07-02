@@ -1,8 +1,9 @@
 # Tailor segment-anything-model (SAM) for cine CMR segmentation
 **Author: Zhennong Chen, PhD**<br />
 
-This is the GitHub repo based on an unpublished paper: <br />
+This is the GitHub repo based on an published paper: <br />
 *Cine Cardiac Magnetic Resonance Segmentation using Temporal-spatial Adaptation of Prompt-enabled Segment-Anything-Model: A Feasibility Study*<br />
+[paper link](https://www.sciencedirect.com/science/article/pii/S1097664725000717)<br />
 Authors: Zhennong Chen, Sekeun Kim, Hui Ren, Sunghwan Kim, Siyeop Yoon, Quanzheng Li, Xiang Li<br />
 
 **Citation**: TBD
@@ -33,7 +34,7 @@ The entire code is [containerized](https://www.docker.com/resources/what-contain
     - Please prepare a patient list (for SAX and for LAX) following my format in ```patient_list_sax.xlsx``` and ```patient_list_lax.xlsx```. My code ```dataset/build_CMR_datasets.py``` will read these to get patient list. This is how the model knows the paths of patient data <br />
 
 - **Text prompt features** <br />
-    - we can easily use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). I also prepare the generated embedding for you in ```data/text_prompt_clip/sax.npy``` and ```data/text_prompt_clip/lax.npy```. <br />
+    - we can use the CLIP model ```dataset/CMR/clip_extractor.ipynb``` to prepare the prompt embedding for text "SAX" (prompt for short-axis) and text "LAX" (prompt for long-axis). I also prepare the generated embedding for you in ```data/text_prompt_clip/sax.npy``` and ```data/text_prompt_clip/lax.npy```. <br />
     - The view type of the data should be easily defined by the metadata of the DICOM. <br />
 
 - **Box prompt features** <br />
