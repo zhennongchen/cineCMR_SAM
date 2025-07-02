@@ -28,10 +28,12 @@ def build_dataset(args, view_type, patient_list_file, index_list, text_prompt_fe
  
     dataset = Dataset.Dataset_CMR(view_type,
                                   patient_list_file,
-                                  text_prompt_feature = text_prompt_feature,
                                   image_file_list = img_file_list,
                                   seg_file_list = seg_file_list,
                                   total_slice_num_list = total_slice_num_list,
+
+                                  text_prompt_feature = text_prompt_feature,
+
                                   seg_include_lowest_pixel = 1,
                                   turn_zero_seg_slice_into = args.turn_zero_seg_slice_into,
                                   only_myo = True,
