@@ -9,7 +9,7 @@ import cineCMR_SAM.dataset.CMR.Dataset as Dataset
 
 def from_excel_file(file, index_list = None, view_type = 'sax'): 
     data = pd.read_excel(file)
-    if index_list == None:
+    if index_list is None:
         c = data
     else:
         c = data.iloc[index_list]
