@@ -2,7 +2,7 @@
 import argparse
 import os
 
-def get_args_parser(text_prompt = True, box_prompt = None, pretrained_model = None, original_sam = None, start_epoch = None, total_training_epochs = 1000):
+def get_args_parser(text_prompt = True, box_prompt = None, pretrained_model = None, original_sam = None, start_epoch = None, total_training_epochs = 1000, vit_type = "vit_h"):
     parser = argparse.ArgumentParser('SAM fine-tuning', add_help=True)
 
     # for training
@@ -36,7 +36,7 @@ def get_args_parser(text_prompt = True, box_prompt = None, pretrained_model = No
 
     parser.add_argument('--seed', default=1234, type=int)   
     parser.add_argument('--input_type', type=str, default='2DT') #has to be 2DT
-    parser.add_argument('--vit_type', type=str, default="vit_h")
+    parser.add_argument('--vit_type', type=str, default=vit_type)
     parser.add_argument('--max_timeframe', default=15, type=int) 
                         
     if start_epoch == None:
