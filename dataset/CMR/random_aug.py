@@ -64,7 +64,7 @@ def random_brightness(i, v = None):
 
 
 def random_sharpness(i, v = None):
-    # i is the object
+    # i is the object 
     # if v is given, then assert v is from 0.1 to 1.9
     if v is not None:
         assert v >= 0.1 and v <= 1.9
