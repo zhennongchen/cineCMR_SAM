@@ -604,6 +604,25 @@ class ImageEncoderViT_medivista(nn.Module):
             nn.BatchNorm2d(out_chans),
             nn.ReLU(inplace=True))
         
+    # def forward(self, x: torch.Tensor) -> torch.Tensor:
+    #     # designed for image size = 128
+    #     x1 = self.inc(x) # (BT), C, H, W
+    #     x2 = self.down1(x1) # 64
+    #     x3 = self.down2(x2) # 32
+    #     x4 = self.down3(x3) # 16
+            
+    #     pe = self.pe(x4)
+    #     x4 = x4 + pe
+
+    #     x4 = rearrange(x4, "b c h w -> b h w c") # (BT), H, W, C
+
+    #     x = x4
+
+    #     for blk in self.blocks: 
+    #         x = blk(x)
+    #     x = self.out_conv(x.permute(0, 3, 1, 2)) 
+    #     return x, [x1,x2,x3]
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # designed for image size = 128
         x1 = self.inc(x) # (BT), C, H, W
@@ -616,10 +635,8 @@ class ImageEncoderViT_medivista(nn.Module):
 
         x4 = rearrange(x4, "b c h w -> b h w c") # (BT), H, W, C
 
-        x = x4
-
         for blk in self.blocks: 
-            x = blk(x)
+            x = blk(x4)
         x = self.out_conv(x.permute(0, 3, 1, 2)) 
         return x, [x1,x2,x3]
         
